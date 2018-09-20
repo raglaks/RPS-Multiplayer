@@ -9,6 +9,8 @@
         crossorigin="anonymous">
     <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
     <script src="assets/javascript/app.js"></script>
     <title>Rock, Paper, Scissors</title>
 </head>
@@ -24,10 +26,12 @@
             <div class="col-lg-1"></div>
         </div>
 
+        <br>
+
         <div class="row">
             <div class="col-lg-1"></div>
-            <div class="col-lg-10 text-center text-white">
-                <h2>Use the corresponding keys to choose rock, paper or scissors.</h2>
+            <div class="col-lg-10 text-center text-white" id="sub">
+                <h2>Choose an option:</h2>
             </div>
             <div class="col-lg-1"></div>
         </div>
@@ -35,38 +39,28 @@
         <br>
 
         <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-5 text-center">
-                <img src="assets/images/rock1.png" alt="rock image">
-                <img src="assets/images/paper1.png" alt="paper image">
-                <img src="assets/images/scissors1.png" alt="scissors image">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 text-center" id="content">
+                <button type="button" class="btn btn-danger" id="pvp">Player vs. Player</button>
+                <button type="button" class="btn btn-danger" id="pvpc">Player vs. Computer</button>
             </div>
-            <div class="col-lg-5 text-center">
-                <img src="assets/images/rock1.png" alt="rock image">
-                <img src="assets/images/paper1.png" alt="paper image">
-                <img src="assets/images/scissors1.png" alt="scissors image">
-            </div>
-            <div class="col-lg-1"></div>
+            <div class="col-lg-3"></div>
         </div>
 
-        <div class="row">
+        <br>
+
+        <!-- <div class="row">
             <div class="col-lg-1"></div>
-            <div class="col-lg-5 text-center text-warning">
-                <h3>Player 1:</h3>
-                <h3>Press <strong>1</strong> for rock, <strong>2</strong> for paper and <strong>3</strong> for
-                    scissors.</h3>
-            </div>
-            <div class="col-lg-5 text-center text-light">
-                <h3>Player 2:</h3>
-                <h3>Press <strong>7</strong> for rock, <strong>8</strong> for paper and <strong>9</strong> for
-                    scissors.</h3>
+            <div class="col-lg-10 text-center">
+                <img src="assets/images/rock1.png" alt="rock image">
+                <img src="assets/images/paper1.png" alt="paper image">
+                <img src="assets/images/scissors1.png" alt="scissors image">
             </div>
             <div class="col-lg-1"></div>
-        </div>
+        </div> -->
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
