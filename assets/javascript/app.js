@@ -86,7 +86,6 @@ $(document).ready(function () {
         $("#content").append(img3);
 
         $("#rock").on("click", function () {
-            console.log("hi");
             computerPlay();
 
             refObj.on("value", function (snapshot) {
@@ -109,11 +108,49 @@ $(document).ready(function () {
         });
 
         $("#paper").on("click", function () {
-            console.log("hi");
+            computerPlay();
+
+            refObj.on("value", function (snapshot) {
+                console.log(snapshot.val());
+
+                var comp = snapshot.val().computer;
+                console.log(comp);
+
+                if (comp === "paper") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-warning'>TIE</h2>");
+                    
+                } else if (comp === "scissors") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                } else {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                }
+            });
         });
 
         $("#scissors").on("click", function () {
-            console.log("hi");
+            computerPlay();
+
+            refObj.on("value", function (snapshot) {
+                console.log(snapshot.val());
+
+                var comp = snapshot.val().computer;
+                console.log(comp);
+
+                if (comp === "paper") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                    
+                } else if (comp === "scissors") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-warning'>TIE</h2>");
+                } else {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                }
+            });
         });
     }
 
