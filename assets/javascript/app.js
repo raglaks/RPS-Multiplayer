@@ -14,9 +14,9 @@ var refObj = firebase.database().ref();
 
 $(document).ready(function () {
 
-    refObj.on("value", function (snapshot) {
-        console.log(snapshot.val());
-    });
+    // refObj.on("value", function (snapshot) {
+    //     console.log(snapshot.val());
+    // });
 
     $("#pvpc").on("click", function () {
         playerName();
@@ -53,7 +53,6 @@ $(document).ready(function () {
         $("#submit").on("click", function () {
             var submit = $("#name").val();
 
-
             refObj.set({
                 player1: submit,
             });
@@ -85,6 +84,49 @@ $(document).ready(function () {
         $("#content").append(img1);
         $("#content").append(img2);
         $("#content").append(img3);
+
+        $("#rock").on("click", function () {
+            console.log("hi");
+            computerPlay();
+
+            refObj.on("value", function (snapshot) {
+                console.log(snapshot.val());
+
+                var comp = snapshot.val().computer;
+                console.log(comp);
+
+                if (comp === "paper") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                } else if (comp === "rock") {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-warning'>TIE</h2>");
+                } else {
+                    $("#content").text(" ");
+                    $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                }
+            });
+        });
+
+        $("#paper").on("click", function () {
+            console.log("hi");
+        });
+
+        $("#scissors").on("click", function () {
+            console.log("hi");
+        });
+    }
+
+    function computerPlay() {
+        var options = ["rock", "paper", "scissors"];
+
+        var rando = Math.floor(Math.random() * options.length);
+
+        console.log(options[rando]);
+
+        refObj.update({
+            computer: options[rando],
+        });
     }
 });
 
