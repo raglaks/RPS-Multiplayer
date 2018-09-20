@@ -23,12 +23,13 @@ $(document).ready(function () {
     });
 
     function playerName() {
-        $("#sub").text(" ");
+        $("#sub").html("<h2>What is your name?</h2>");
+
         $("#content").text(" ");
+
         var form = $("<form>");
         var input = $("<input>");
         var button = $("<button>");
-        var h2 = $("<h2>");
 
         input.attr("type", "text");
         input.attr("class", "form-control text-center");
@@ -42,9 +43,6 @@ $(document).ready(function () {
         form.append(input);
         form.append(button);
 
-        h2.text("What is your name?");
-
-        $("#sub").append(h2);
         $("#content").append(form);
 
         nameToFire();
@@ -68,7 +66,25 @@ $(document).ready(function () {
     }
 
     function gamePage() {
-        var h2
+
+        $("#sub").html("<h2>Click on any image to play:</h2>");
+
+        var img1 = $("<img>");
+        var img2 = $("<img>");
+        var img3 = $("<img>");
+
+        img1.attr("src", "assets/images/rock1.png");
+        img1.attr("id", "rock");
+
+        img2.attr("src", "assets/images/paper1.png");
+        img2.attr("id", "paper");
+
+        img3.attr("src", "assets/images/scissors1.png");
+        img3.attr("id", "scissors");
+
+        $("#content").append(img1);
+        $("#content").append(img2);
+        $("#content").append(img3);
     }
 });
 
