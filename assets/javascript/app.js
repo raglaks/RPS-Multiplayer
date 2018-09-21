@@ -8,15 +8,90 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//var database = firebase.database();
+var database = firebase.database();
 
 var refObj = firebase.database().ref();
 
+
+
 $(document).ready(function () {
 
-    // refObj.on("value", function (snapshot) {
-    //     console.log(snapshot.val());
-    // });
+    var connectionsRef = database.ref("/connections");
+    var connectedRef = database.ref(".info/connected");
+    var names = database.ref("/names");
+    names.remove();
+
+    connectedRef.on("value", function (snapshot) {
+        if (snapshot.val()) {
+            var con = connectionsRef.push(true);
+            con.onDisconnect().remove();
+        }
+    });
+
+    connectionsRef.on("value", function (snapshot) {
+
+        var players = snapshot.numChildren();
+        console.log(players);
+
+        if (players === 2) {
+            $("#players").html("<h2>Your opponent is waiting, challenge them.</h2>");
+            console.log(snapshot.val());
+            $("#pvp").on("click", function () {
+                pvpName();
+            });
+        } else if (players === 1) {
+            $("#players").html("<h2>No opponents found; try playing against the computer.</h2>");
+        } else if (players > 2) {
+            $("#players").html("<h2>There are " + players + " online players. Please wait till a game finishes.</h2>");
+        }
+
+    })
+
+    function pvpName() {
+        $("#sub").html("<h2>What is your name?</h2>");
+
+        $("#content").text(" ");
+        $("#players").text(" ");
+
+        var form = $("<form>");
+        var input = $("<input>");
+        var button = $("<button>");
+
+        input.attr("type", "text");
+        input.attr("class", "form-control text-center");
+        input.attr("id", "name");
+
+        button.attr("type", "button");
+        button.attr("class", "btn btn-danger text-center");
+        button.attr("id", "submit");
+        button.text("Submit");
+
+        form.append(input);
+        form.append(button);
+
+        $("#content").append(form);
+
+        pvpFire();
+    }
+
+    function pvpFire() {
+        $("#submit").on("click", function () {
+            var submit = $("#name").val();
+
+            names.push(submit);
+
+            $("#sub").text(" ");
+            $("#content").text(" ");
+
+            pvpGame();
+        });
+    }
+
+    function pvpGame() {
+        names.on("value", function (snapshot) {
+            console.log(snapshot.val());
+        });
+    }
 
     $("#pvpc").on("click", function () {
         playerName();
@@ -47,7 +122,7 @@ $(document).ready(function () {
 
         nameToFire();
 
-    }
+    };
 
     function nameToFire() {
         $("#submit").on("click", function () {
@@ -62,7 +137,7 @@ $(document).ready(function () {
 
             gamePage();
         });
-    }
+    };
 
     function gamePage() {
 
@@ -95,13 +170,13 @@ $(document).ready(function () {
                 console.log(comp);
 
                 if (comp === "paper") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                 } else if (comp === "rock") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
                 } else {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
                 }
             });
@@ -117,14 +192,14 @@ $(document).ready(function () {
                 console.log(comp);
 
                 if (comp === "paper") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
-                    
+
                 } else if (comp === "scissors") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                 } else {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
                 }
             });
@@ -140,19 +215,19 @@ $(document).ready(function () {
                 console.log(comp);
 
                 if (comp === "paper") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
-                    
+
                 } else if (comp === "scissors") {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
                 } else {
-                    $("#content").text(" ");
+                    $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                 }
             });
         });
-    }
+    };
 
     function computerPlay() {
         var options = ["rock", "paper", "scissors"];
