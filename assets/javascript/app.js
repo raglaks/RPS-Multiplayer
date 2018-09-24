@@ -240,12 +240,32 @@ $(document).ready(function () {
 
             if (p1choice === p2choice) {
 
+                p1.update({
+                    result: "tie",
+                    ties: ties+1
+                });
+
+                p2.update({
+                    result: "tie",
+                    ties: ties+1
+                });
+
                 console.log("it's a tie");
                 $("#sub").html("<h2>It's a tie!</h2>");
                 $("#content").html("<h2 class='text-warning'>You both chose " + p1choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p1choice === "rock" && p2choice === "scissors") {
+
+                p1.update({
+                    result: "win",
+                    wins: wins+1
+                });
+
+                p2.update({
+                    result: "loss",
+                    losses: losses+1
+                });
 
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
@@ -254,12 +274,32 @@ $(document).ready(function () {
                 
             } else if (p1choice === "scissors" && p2choice === "paper") {
 
+                p1.update({
+                    result: "win",
+                    wins: wins+1
+                });
+
+                p2.update({
+                    result: "loss",
+                    losses: losses+1
+                });
+
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
                 $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p1choice === "paper" && p2choice === "rock") {
+
+                p1.update({
+                    result: "win",
+                    wins: wins+1
+                });
+
+                p2.update({
+                    result: "loss",
+                    losses: losses+1
+                });
 
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
@@ -268,6 +308,16 @@ $(document).ready(function () {
 
             } else if (p2choice === "rock" && p1choice === "scissors") {
 
+                p1.update({
+                    result: "loss",
+                    losses: losses+1
+                });
+
+                p2.update({
+                    result: "win",
+                    wins: wins+1
+                });
+
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
                 $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
@@ -275,12 +325,32 @@ $(document).ready(function () {
 
             } else if (p2choice === "scissors" && p1choice === "paper") {
 
+                p1.update({
+                    result: "loss",
+                    losses: losses+1
+                });
+
+                p2.update({
+                    result: "win",
+                    wins: wins+1
+                });
+
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
                 $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p2choice === "paper" && p1choice === "rock") {
+
+                p1.update({
+                    result: "loss",
+                    losses: losses+1
+                });
+
+                p2.update({
+                    result: "win",
+                    wins: wins+1
+                });
 
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
