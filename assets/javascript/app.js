@@ -30,8 +30,9 @@ var nameStrings = [];
 
 var name = " ";
 
-var p1Choice = database.ref("/p1Choice");
-var p2Choice = database.ref("/p2Choice");
+var wins = 0;
+var losses = 0;
+var ties = 0;
 
 //functions to be done on doc ready status
 $(document).ready(function () {
@@ -42,8 +43,6 @@ $(document).ready(function () {
     database.ref("/computer").remove();
     database.ref("/p1").remove();
     database.ref("/p2").remove();
-    database.ref("/p1Choice").remove();
-    database.ref("/p2Choice").remove();
 
     //function to check how many online
     //only runs when someone is online and removes child when disconnected
@@ -161,10 +160,6 @@ $(document).ready(function () {
                 var p1name = snapshot.val().p1.name;
                 var p2name = snapshot.val().p2.name;
 
-                console.log(p1);
-                console.log(p2);
-                console.log(name);
-
                 if (p1name === name) {
 
                     p1.update({
@@ -177,17 +172,9 @@ $(document).ready(function () {
                     });
                 }
 
-                // if (comp === "paper") {
-                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
-                //     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
-                // } else if (comp === "rock") {
-                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
-                //     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
-                // } else {
-                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
-                //     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
-                // }
             });
+
+            evalFirebase();
         });
 
         $("#paper").on("click", function () {
@@ -197,10 +184,6 @@ $(document).ready(function () {
                 var p1name = snapshot.val().p1.name;
                 var p2name = snapshot.val().p2.name;
 
-                console.log(p1);
-                console.log(p2);
-                console.log(name);
-
                 if (p1name === name) {
 
                     p1.update({
@@ -214,6 +197,9 @@ $(document).ready(function () {
                 }
 
             });
+
+            evalFirebase();
+
         });
 
         $("#scissors").on("click", function () {
@@ -223,10 +209,6 @@ $(document).ready(function () {
                 var p1name = snapshot.val().p1.name;
                 var p2name = snapshot.val().p2.name;
 
-                console.log(p1);
-                console.log(p2);
-                console.log(name);
-
                 if (p1name === name) {
 
                     p1.update({
@@ -240,6 +222,72 @@ $(document).ready(function () {
                 }
             });
 
+            evalFirebase();
+
+        });
+
+    }
+
+
+    function evalFirebase() {
+        refObj.on("value", function (snapshot) {
+
+            var p1choice = snapshot.val().p1.choice;
+            var p2choice = snapshot.val().p2.choice;
+
+            var p1name = snapshot.val().p1.name;
+            var p2name = snapshot.val().p2.name;
+
+            if (p1choice === p2choice) {
+
+                console.log("it's a tie");
+                $("#sub").html("<h2>It's a tie!</h2>");
+                $("#content").html("<h2 class='text-warning'>You both chose " + p1choice + ".</h2>");
+                $("#players").text(" ");
+
+            } else if (p1choice === "rock" && p2choice === "scissors") {
+
+                console.log(p1name + " wins, " + p2name + " loses.");
+                $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#players").text(" ");
+                
+            } else if (p1choice === "scissors" && p2choice === "paper") {
+
+                console.log(p1name + " wins, " + p2name + " loses.");
+                $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#players").text(" ");
+
+            } else if (p1choice === "paper" && p2choice === "rock") {
+
+                console.log(p1name + " wins, " + p2name + " loses.");
+                $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#players").text(" ");
+
+            } else if (p2choice === "rock" && p1choice === "scissors") {
+
+                console.log(p2name + " wins, " + p1name + " loses.");
+                $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#players").text(" ");
+
+            } else if (p2choice === "scissors" && p1choice === "paper") {
+
+                console.log(p2name + " wins, " + p1name + " loses.");
+                $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#players").text(" ");
+
+            } else if (p2choice === "paper" && p1choice === "rock") {
+
+                console.log(p2name + " wins, " + p1name + " loses.");
+                $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#players").text(" ");
+
+            }
         });
     }
 
@@ -392,8 +440,5 @@ $(document).ready(function () {
         });
     }
 
-    // refObj.on("value", function(snapshot) {
-    //     console.log(snapshot.val());
-    // });
 });
 
