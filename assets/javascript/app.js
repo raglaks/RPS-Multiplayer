@@ -28,6 +28,11 @@ var p2 = database.ref("/p2");
 //empty array created for players' name and stored as strings
 var nameStrings = [];
 
+var name = " ";
+
+var p1Choice = database.ref("/p1Choice");
+var p2Choice = database.ref("/p2Choice");
+
 //functions to be done on doc ready status
 $(document).ready(function () {
 
@@ -37,6 +42,8 @@ $(document).ready(function () {
     database.ref("/computer").remove();
     database.ref("/p1").remove();
     database.ref("/p2").remove();
+    database.ref("/p1Choice").remove();
+    database.ref("/p2Choice").remove();
 
     //function to check how many online
     //only runs when someone is online and removes child when disconnected
@@ -99,9 +106,9 @@ $(document).ready(function () {
     //function to then take that string and push it to firebase, specifically to the names child created above
     function pvpFire() {
         $("#submit").on("click", function (event) {
-            var submit = $("#name").val();
+            name = $("#name").val();
 
-            names.push(submit);
+            names.push(name);
 
             names.on("child_added", function (snapshot) {
                 var push = snapshot.val();
@@ -110,7 +117,7 @@ $(document).ready(function () {
 
             $("#sub").text(" ");
             $("#content").text(" ");
-            $("#players").html("<h2>" + submit + ", choose rock, paper or scissors.</h2>")
+            $("#players").html("<h2>" + name + ", choose rock, paper or scissors.</h2>")
             pvpGame();
         });
     }
@@ -119,14 +126,14 @@ $(document).ready(function () {
     function pvpGame() {
         console.log(nameStrings);
 
-        refObj.on("child_added", function(snapshot) {
+        refObj.on("child_added", function (snapshot) {
             if (nameStrings.length === 1) {
                 p1.child("name").set(nameStrings[0]);
             } else if (nameStrings.length === 2) {
                 p2.child("name").set(nameStrings[1]);
                 p1.child("name").set(nameStrings[0]);
             }
-        })
+        });
 
         $("#sub").html("<h2>Click on any image to play:</h2>");
 
@@ -149,13 +156,89 @@ $(document).ready(function () {
 
         $("#rock").on("click", function () {
 
+            refObj.on("value", function (snapshot) {
+
+                var p1name = snapshot.val().p1.name;
+                var p2name = snapshot.val().p2.name;
+
+                console.log(p1);
+                console.log(p2);
+                console.log(name);
+
+                if (p1name === name) {
+
+                    p1.update({
+                        choice: "rock"
+                    });
+
+                } else if (p2name === name) {
+                    p2.update({
+                        choice: "rock"
+                    });
+                }
+
+                // if (comp === "paper") {
+                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
+                //     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                // } else if (comp === "rock") {
+                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
+                //     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
+                // } else {
+                //     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
+                //     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                // }
+            });
         });
 
         $("#paper").on("click", function () {
 
+            refObj.on("value", function (snapshot) {
+
+                var p1name = snapshot.val().p1.name;
+                var p2name = snapshot.val().p2.name;
+
+                console.log(p1);
+                console.log(p2);
+                console.log(name);
+
+                if (p1name === name) {
+
+                    p1.update({
+                        choice: "paper"
+                    });
+
+                } else if (p2name === name) {
+                    p2.update({
+                        choice: "paper"
+                    });
+                }
+
+            });
         });
 
         $("#scissors").on("click", function () {
+
+            refObj.on("value", function (snapshot) {
+
+                var p1name = snapshot.val().p1.name;
+                var p2name = snapshot.val().p2.name;
+
+                console.log(p1);
+                console.log(p2);
+                console.log(name);
+
+                if (p1name === name) {
+
+                    p1.update({
+                        choice: "scissors"
+                    });
+
+                } else if (p2name === name) {
+                    p2.update({
+                        choice: "scissors"
+                    });
+                }
+            });
 
         });
     }
