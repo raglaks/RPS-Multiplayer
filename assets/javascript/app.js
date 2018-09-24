@@ -6,21 +6,41 @@ var config = {
     storageBucket: "rps-multiplayer-33a99.appspot.com",
     messagingSenderId: "362020719621"
 };
+
+//initialize firebase
 firebase.initializeApp(config);
 
+//create ref to entire database
 var database = firebase.database();
 
+//create ref to what i need
 var refObj = firebase.database().ref();
+//variable for connections child
+var connectionsRef = database.ref("/connections");
+//variable to access connected default method
+var connectedRef = database.ref(".info/connected");
+//variable to create names child to store player names
+var names = database.ref("/names");
+//var for p1
+var p1 = database.ref("/p1");
+//var for p2
+var p2 = database.ref("/p2");
+//empty array created for players' name and stored as strings
+var nameStrings = [];
 
-
-
+//functions to be done on doc ready status
 $(document).ready(function () {
 
-    var connectionsRef = database.ref("/connections");
-    var connectedRef = database.ref(".info/connected");
-    var names = database.ref("/names");
+    //methods to remove and clean database children upon doc ready status
     names.remove();
+    database.ref("/player1").remove();
+    database.ref("/computer").remove();
+    database.ref("/p1").remove();
+    database.ref("/p2").remove();
 
+    //function to check how many online
+    //only runs when someone is online and removes child when disconnected
+    //the boolean values are pushed to the connectionsRef var that was created in line 24
     connectedRef.on("value", function (snapshot) {
         if (snapshot.val()) {
             var con = connectionsRef.push(true);
@@ -28,14 +48,15 @@ $(document).ready(function () {
         }
     });
 
+    //function is called on value and then is filled with numChildren to get a numerial value
+    //conditions are then set for what type of game the user can play
+    //player vs player can only be played if there are two users online
     connectionsRef.on("value", function (snapshot) {
 
         var players = snapshot.numChildren();
-        console.log(players);
 
         if (players === 2) {
             $("#players").html("<h2>Your opponent is waiting, challenge them.</h2>");
-            console.log(snapshot.val());
             $("#pvp").on("click", function () {
                 pvpName();
             });
@@ -47,6 +68,7 @@ $(document).ready(function () {
 
     })
 
+    //function to get player name
     function pvpName() {
         $("#sub").html("<h2>What is your name?</h2>");
 
@@ -74,25 +96,71 @@ $(document).ready(function () {
         pvpFire();
     }
 
+    //function to then take that string and push it to firebase, specifically to the names child created above
     function pvpFire() {
-        $("#submit").on("click", function () {
+        $("#submit").on("click", function (event) {
             var submit = $("#name").val();
 
             names.push(submit);
 
+            names.on("child_added", function (snapshot) {
+                var push = snapshot.val();
+                nameStrings.push(push);
+            });
+
             $("#sub").text(" ");
             $("#content").text(" ");
-
+            $("#players").html("<h2>" + submit + ", choose rock, paper or scissors.</h2>")
             pvpGame();
         });
     }
 
+    //function to start game
     function pvpGame() {
-        names.on("value", function (snapshot) {
-            console.log(snapshot.val());
+        console.log(nameStrings);
+
+        refObj.on("child_added", function(snapshot) {
+            if (nameStrings.length === 1) {
+                p1.child("name").set(nameStrings[0]);
+            } else if (nameStrings.length === 2) {
+                p2.child("name").set(nameStrings[1]);
+                p1.child("name").set(nameStrings[0]);
+            }
+        })
+
+        $("#sub").html("<h2>Click on any image to play:</h2>");
+
+        var img1 = $("<img>");
+        var img2 = $("<img>");
+        var img3 = $("<img>");
+
+        img1.attr("src", "assets/images/rock1.png");
+        img1.attr("id", "rock");
+
+        img2.attr("src", "assets/images/paper1.png");
+        img2.attr("id", "paper");
+
+        img3.attr("src", "assets/images/scissors1.png");
+        img3.attr("id", "scissors");
+
+        $("#content").append(img1);
+        $("#content").append(img2);
+        $("#content").append(img3);
+
+        $("#rock").on("click", function () {
+
+        });
+
+        $("#paper").on("click", function () {
+
+        });
+
+        $("#scissors").on("click", function () {
+
         });
     }
 
+    //these functions are called when no other active players are online; but you can still play against the computer
     $("#pvpc").on("click", function () {
         playerName();
     });
@@ -240,5 +308,9 @@ $(document).ready(function () {
             computer: options[rando],
         });
     }
+
+    // refObj.on("value", function(snapshot) {
+    //     console.log(snapshot.val());
+    // });
 });
 
