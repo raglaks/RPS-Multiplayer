@@ -409,10 +409,6 @@ $(document).ready(function () {
         
     };
 
-    function soloScoresF() {
-        
-    }
-
     function nameToFire() {
         $("#submit").on("click", function () {
             var submit = $("#name").val();
@@ -442,6 +438,8 @@ $(document).ready(function () {
 
     function gamePage() {
 
+        $("#players").text(" ");
+
         $("#sub").html("<h2>Click on any image to play:</h2>");
 
         var img1 = $("<img>");
@@ -470,13 +468,6 @@ $(document).ready(function () {
             });
 
         $("#rock").on("click", function () {
-            // computerPlay();
-
-            // refObj.on("value", function (snapshot) {
-
-            //     comp = snapshot.val().computer;
-
-            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -485,12 +476,24 @@ $(document).ready(function () {
 
                     lossesAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
+
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
 
                     tiesAdd();
+
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
 
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -499,25 +502,16 @@ $(document).ready(function () {
 
                     winsAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
                 }
 
-                $("#again").on("click", function () {
-                    $("#content").text(" ");
-                    $("#score").text(" ");
-                    gamePage();
-                });
-
-            
         });
 
         $("#paper").on("click", function () {
-            // computerPlay();
-
-            // refObj.on("value", function (snapshot) {
-
-            //     comp = snapshot.val().computer;
-
-            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -526,12 +520,24 @@ $(document).ready(function () {
 
                     tiesAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
+
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
 
                     lossesAdd();
+
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
 
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -540,25 +546,23 @@ $(document).ready(function () {
 
                     winsAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
+
                 }
 
-                $("#again").on("click", function () {
-                    $("#content").text(" ");
-                    $("#score").text(" ");
-                    gamePage();
-                });
+                // $("#again").on("click", function () {
+                //     $("#content").text(" ");
+                //     $("#score").text(" ");
+                //     gamePage();
+                // });
 
-            
         });
 
         $("#scissors").on("click", function () {
-            // computerPlay();
-
-            // refObj.on("value", function (snapshot) {
-
-            //     comp = snapshot.val().computer;
-
-            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -567,12 +571,24 @@ $(document).ready(function () {
 
                     winsAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
+
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
 
                     tiesAdd();
+
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
 
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -581,33 +597,25 @@ $(document).ready(function () {
 
                     lossesAdd();
 
+                    $("#again").on("click", function () {
+                        $("#content").text(" ");
+                        $("#score").text(" ");
+                        gamePage();
+                    });
+
                 }
 
-                $("#again").on("click", function () {
-                    $("#content").text(" ");
-                    $("#score").text(" ");
-                    gamePage();
-                });
-
-            
+                // $("#again").on("click", function () {
+                //     $("#content").text(" ");
+                //     $("#score").text(" ");
+                //     gamePage();
+                // });
         });
 
         function winsAdd() {
 
-            // soloWins.on("value", function (snapshot) {
-            //     console.log(snapshot.val().wins);
-
-
-            //     sW = snapshot.val().wins;
-
-            // });
-
             sW = sW + 1;
-            
-            console.log("wins: " + sW);
-            console.log("losses: " + sL);
-            console.log("ties: " + sT);
-
+        
             soloWins.update({
                 wins: sW
             });
@@ -616,18 +624,7 @@ $(document).ready(function () {
 
         function lossesAdd() {
 
-            // soloLosses.on("value", function (snapshot) {
-            //     console.log(snapshot.val().losses);
-
-            //     sL = snapshot.val().losses;
-
-            // });
-
             sL = sL + 1;
-
-            console.log("wins: " + sW);
-            console.log("losses: " + sL);
-            console.log("ties: " + sT);
             
             soloLosses.update({
                 losses: sL
@@ -637,18 +634,7 @@ $(document).ready(function () {
 
         function tiesAdd() {
 
-            // soloTies.on("value", function (snapshot) {
-            //     console.log(snapshot.val().ties);
-
-            //     sT = snapshot.val().ties;
-
-            // });
-
             sT = sT + 1;
-            
-            console.log("wins: " + sW);
-            console.log("losses: " + sL);
-            console.log("ties: " + sT);
 
             soloTies.update({
                 ties: sT
