@@ -56,6 +56,10 @@ $(document).ready(function () {
     database.ref("/p1").remove();
     database.ref("/p2").remove();
 
+    soloLosses.remove();
+    soloTies.remove();
+    soloWins.remove();
+
     //function to check how many online
     //only runs when someone is online and removes child when disconnected
     //the boolean values are pushed to the connectionsRef var that was created in line 24
@@ -459,6 +463,8 @@ $(document).ready(function () {
         $("#content").append(img2);
         $("#content").append(img3);
 
+        // $("#score").html("<h2>Wins: " + sW + " Losses: " + sL + " Ties: " + sT + "</h2>");
+
         computerPlay();
 
             refObj.on("value", function (snapshot) {
@@ -473,14 +479,9 @@ $(document).ready(function () {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+                    
 
                     lossesAdd();
-
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
 
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -489,12 +490,6 @@ $(document).ready(function () {
 
                     tiesAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
-
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
@@ -502,12 +497,13 @@ $(document).ready(function () {
 
                     winsAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
                 }
+
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
 
         });
 
@@ -520,24 +516,12 @@ $(document).ready(function () {
 
                     tiesAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
-
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
 
                     lossesAdd();
-
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
 
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -546,19 +530,13 @@ $(document).ready(function () {
 
                     winsAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
-
                 }
 
-                // $("#again").on("click", function () {
-                //     $("#content").text(" ");
-                //     $("#score").text(" ");
-                //     gamePage();
-                // });
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
 
         });
 
@@ -571,24 +549,12 @@ $(document).ready(function () {
 
                     winsAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
-
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
                     $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
 
                     tiesAdd();
-
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
 
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
@@ -597,19 +563,13 @@ $(document).ready(function () {
 
                     lossesAdd();
 
-                    $("#again").on("click", function () {
-                        $("#content").text(" ");
-                        $("#score").text(" ");
-                        gamePage();
-                    });
-
                 }
 
-                // $("#again").on("click", function () {
-                //     $("#content").text(" ");
-                //     $("#score").text(" ");
-                //     gamePage();
-                // });
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
         });
 
         function winsAdd() {
@@ -619,6 +579,8 @@ $(document).ready(function () {
             soloWins.update({
                 wins: sW
             });
+
+            $("#score").html("<h2>Wins: " + sW + " Losses: " + sL + " Ties: " + sT + "</h2>");
 
         }
 
@@ -630,6 +592,8 @@ $(document).ready(function () {
                 losses: sL
             });
 
+            $("#score").html("<h2>Wins: " + sW + " Losses: " + sL + " Ties: " + sT + "</h2>");
+
         }
 
         function tiesAdd() {
@@ -639,6 +603,8 @@ $(document).ready(function () {
             soloTies.update({
                 ties: sT
             });
+
+            $("#score").html("<h2>Wins: " + sW + " Losses: " + sL + " Ties: " + sT + "</h2>");
 
         }
 
