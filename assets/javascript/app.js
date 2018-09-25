@@ -34,6 +34,18 @@ var wins = 0;
 var losses = 0;
 var ties = 0;
 
+var soloWins = database.ref("/soloWins");
+var soloLosses = database.ref("/soloLosses");
+var soloTies = database.ref("/soloTies");
+
+var comp = " ";
+
+var sW = 0;
+var sL = 0;
+var sT = 0;
+
+var player1 = database.ref("/player1");
+
 //functions to be done on doc ready status
 $(document).ready(function () {
 
@@ -72,7 +84,7 @@ $(document).ready(function () {
             $("#players").html("<h2>There are " + players + " online players. Please wait till a game finishes.</h2>");
         }
 
-    })
+    });
 
     //function to get player name
     function pvpName() {
@@ -242,12 +254,12 @@ $(document).ready(function () {
 
                 p1.update({
                     result: "tie",
-                    ties: ties+1
+                    ties: ties + 1
                 });
 
                 p2.update({
                     result: "tie",
-                    ties: ties+1
+                    ties: ties + 1
                 });
 
                 console.log("it's a tie");
@@ -259,111 +271,115 @@ $(document).ready(function () {
 
                 p1.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 p2.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
-                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice + ", " + p2name + " chose " + p2choice + ".</h2>");
                 $("#players").text(" ");
-                
+
             } else if (p1choice === "scissors" && p2choice === "paper") {
 
                 p1.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 p2.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
-                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice + ", " + p2name + " chose " + p2choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p1choice === "paper" && p2choice === "rock") {
 
                 p1.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 p2.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 console.log(p1name + " wins, " + p2name + " loses.");
                 $("#sub").html("<h2>" + p1name + " wins, " + p2name + " loses.</h2>");
-                $("#content").html("<h2>" + p1name + " chose " + p1choice  + ", " + p2name + " chose " + p2choice + ".</h2>");
+                $("#content").html("<h2>" + p1name + " chose " + p1choice + ", " + p2name + " chose " + p2choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p2choice === "rock" && p1choice === "scissors") {
 
                 p1.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 p2.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
-                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice + ", " + p1name + " chose " + p1choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p2choice === "scissors" && p1choice === "paper") {
 
                 p1.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 p2.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
-                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice + ", " + p1name + " chose " + p1choice + ".</h2>");
                 $("#players").text(" ");
 
             } else if (p2choice === "paper" && p1choice === "rock") {
 
                 p1.update({
                     result: "loss",
-                    losses: losses+1
+                    losses: losses + 1
                 });
 
                 p2.update({
                     result: "win",
-                    wins: wins+1
+                    wins: wins + 1
                 });
 
                 console.log(p2name + " wins, " + p1name + " loses.");
                 $("#sub").html("<h2>" + p2name + " wins, " + p1name + " loses.</h2>");
-                $("#content").html("<h2>" + p2name + " chose " + p2choice  + ", " + p1name + " chose " + p1choice + ".</h2>");
+                $("#content").html("<h2>" + p2name + " chose " + p2choice + ", " + p1name + " chose " + p1choice + ".</h2>");
                 $("#players").text(" ");
 
             }
+
         });
     }
 
     //these functions are called when no other active players are online; but you can still play against the computer
     $("#pvpc").on("click", function () {
         playerName();
+        $("#players").text(" ");
+
+        // $("#score").text(" ");
     });
 
     function playerName() {
@@ -390,8 +406,12 @@ $(document).ready(function () {
         $("#content").append(form);
 
         nameToFire();
-
+        
     };
+
+    function soloScoresF() {
+        
+    }
 
     function nameToFire() {
         $("#submit").on("click", function () {
@@ -399,6 +419,18 @@ $(document).ready(function () {
 
             refObj.set({
                 player1: submit,
+            });
+
+            soloLosses.set({
+                losses: sL
+            });
+    
+            soloWins.set({
+                wins: sW
+            });
+    
+            soloTies.set({
+                ties: sT
             });
 
             $("#sub").text(" ");
@@ -429,81 +461,207 @@ $(document).ready(function () {
         $("#content").append(img2);
         $("#content").append(img3);
 
-        $("#rock").on("click", function () {
-            computerPlay();
+        computerPlay();
 
             refObj.on("value", function (snapshot) {
-                console.log(snapshot.val());
 
-                var comp = snapshot.val().computer;
-                console.log(comp);
+                comp = snapshot.val().computer;
+
+            });
+
+        $("#rock").on("click", function () {
+            // computerPlay();
+
+            // refObj.on("value", function (snapshot) {
+
+            //     comp = snapshot.val().computer;
+
+            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    lossesAdd();
+
                 } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
-                } else {
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    tiesAdd();
+
+                } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    winsAdd();
+
                 }
-            });
+
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
+
+            
         });
 
         $("#paper").on("click", function () {
-            computerPlay();
+            // computerPlay();
 
-            refObj.on("value", function (snapshot) {
-                console.log(snapshot.val());
+            // refObj.on("value", function (snapshot) {
 
-                var comp = snapshot.val().computer;
-                console.log(comp);
+            //     comp = snapshot.val().computer;
+
+            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    tiesAdd();
 
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
-                } else {
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    lossesAdd();
+
+                } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    winsAdd();
+
                 }
-            });
+
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
+
+            
         });
 
         $("#scissors").on("click", function () {
-            computerPlay();
+            // computerPlay();
 
-            refObj.on("value", function (snapshot) {
-                console.log(snapshot.val());
+            // refObj.on("value", function (snapshot) {
 
-                var comp = snapshot.val().computer;
-                console.log(comp);
+            //     comp = snapshot.val().computer;
+
+            // });
 
                 if (comp === "paper") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-success'>YOU WIN!</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    winsAdd();
 
                 } else if (comp === "scissors") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-warning'>TIE</h2>");
-                } else {
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    tiesAdd();
+
+                } else if (comp === "rock") {
                     $("#content").html("<h2 class='text-white'>Computer chose " + comp + "</h2>");
                     $("#sub").html("<h2 class='text-danger'>YOU LOSE</h2>");
+                    $("#players").html("<button type='button' class='btn btn-danger' id='again'>Play again</button>");
+
+                    lossesAdd();
+
                 }
-            });
+
+                $("#again").on("click", function () {
+                    $("#content").text(" ");
+                    $("#score").text(" ");
+                    gamePage();
+                });
+
+            
         });
+
+        function winsAdd() {
+
+            // soloWins.on("value", function (snapshot) {
+            //     console.log(snapshot.val().wins);
+
+
+            //     sW = snapshot.val().wins;
+
+            // });
+
+            sW = sW + 1;
+            
+            console.log("wins: " + sW);
+            console.log("losses: " + sL);
+            console.log("ties: " + sT);
+
+            soloWins.update({
+                wins: sW
+            });
+
+        }
+
+        function lossesAdd() {
+
+            // soloLosses.on("value", function (snapshot) {
+            //     console.log(snapshot.val().losses);
+
+            //     sL = snapshot.val().losses;
+
+            // });
+
+            sL = sL + 1;
+
+            console.log("wins: " + sW);
+            console.log("losses: " + sL);
+            console.log("ties: " + sT);
+            
+            soloLosses.update({
+                losses: sL
+            });
+
+        }
+
+        function tiesAdd() {
+
+            // soloTies.on("value", function (snapshot) {
+            //     console.log(snapshot.val().ties);
+
+            //     sT = snapshot.val().ties;
+
+            // });
+
+            sT = sT + 1;
+            
+            console.log("wins: " + sW);
+            console.log("losses: " + sL);
+            console.log("ties: " + sT);
+
+            soloTies.update({
+                ties: sT
+            });
+
+        }
+
     };
 
     function computerPlay() {
         var options = ["rock", "paper", "scissors"];
 
         var rando = Math.floor(Math.random() * options.length);
-
-        console.log(options[rando]);
 
         refObj.update({
             computer: options[rando],
